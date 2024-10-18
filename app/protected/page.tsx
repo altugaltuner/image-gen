@@ -46,8 +46,8 @@ export default async function ProfilePage() {
               <Image
                 src={profileData.created_images_url}
                 alt="Profile Image"
-                width={150}
-                height={150}
+                width={300}
+                height={300}
                 className="rounded"
               />
             ) : (
@@ -63,9 +63,6 @@ export default async function ProfilePage() {
           </div>
         </ScrollArea>
       </div>
-
-      {/* Example button for interaction */}
-      <Button>Click Me</Button>
     </div>
   );
 }
