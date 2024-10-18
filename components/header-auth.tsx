@@ -47,7 +47,7 @@ export default async function AuthButton() {
   }
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      Hey, {user.email ? user.email.split('@')[0] : 'User'}!
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
           Sign out

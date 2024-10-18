@@ -44,7 +44,7 @@ export default async function ProfilePage() {
           <div className="flex gap-4">
             {profileData?.created_images_url ? (
               <Image
-                src={profileData.created_images_url} // Supabase'den çekilen kullanıcı görseli
+                src={profileData.created_images_url}
                 alt="Profile Image"
                 width={150}
                 height={150}
