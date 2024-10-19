@@ -49,9 +49,41 @@ const ImageCreate = ({ user }: { user: any }) => {
     const [prompt, setPrompt] = useState("");
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
     const [isSaveLoading, setIsSaveLoading] = useState(false);
-    const [newImageCount, setNewImageCount] = useState(0);
+    const [newImageCount, setNewImageCount] = useState(null);
 
+    useEffect(() => {
+        // Kullanıcının mevcut image_count değerini çek ve güncelle
+        const fetchInitialCount = async () => {
+            if (user) {
+                const count = await getCountData();
+                if (count !== null) {
+                    setNewImageCount(count);
+                }
+            }
+        };
 
+        fetchInitialCount();
+    }, [user]); // Sadece kullanıcı değiştiğinde tetiklenir
+
+    const getCountData = async () => {
+        if (!user) {
+            return null;
+        }
+        // Kullanıcının mevcut image_count değerini çek
+        const { data, error } = await supabase
+            .from("profiles")
+            .select("image_count")
+            .eq("id", user.id)
+            .single();
+
+        if (error) {
+            console.error("Error fetching image_count:", error.message);
+            return null;
+        }
+
+        // Mevcut image_count değerini döndür
+        return data?.image_count || 0;
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,15 +93,12 @@ const ImageCreate = ({ user }: { user: any }) => {
             alert("Please sign in to create an image.");
             return;
         }
-        // Kullanıcının mevcut image_count değerini çek
-        const { data, error: fetchError } = await supabase
-            .from("profiles")
-            .select("image_count")
-            .eq("id", user.id)
-            .single();
+
+        // image_count değerini getCountData fonksiyonundan al
+        const currentImageCount = await getCountData();
 
         //5 ve üzeri kullanımda daha fazla üretmenin önüne geç
-        if (data?.image_count >= 5) {
+        if (currentImageCount >= 5) {
             alert("You have reached the maximum number of images you can create.");
             return;
         }
@@ -79,13 +108,9 @@ const ImageCreate = ({ user }: { user: any }) => {
             // Görsel oluşturma işlemi, await ile bitene kadar bekler
             await fetchImage();
 
-            if (fetchError) {
-                console.error("Error fetching image_count:", fetchError.message);
-                return;
-            }
-
-            // Mevcut image_count değerini bir artır
-            setNewImageCount((data?.image_count || 0) + 1)
+            // Yeni image_count değerini hesapla
+            const newImageCount = currentImageCount + 1;
+            setNewImageCount(newImageCount);
 
             // Supabase'de image_count'u güncelle
             const { error: updateError } = await supabase
