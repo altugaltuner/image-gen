@@ -49,16 +49,62 @@ const ImageCreate = ({ user }: { user: any }) => {
     const [prompt, setPrompt] = useState("");
     const [isSubmitLoading, setIsSubmitLoading] = useState(false);
     const [isSaveLoading, setIsSaveLoading] = useState(false);
+    const [newImageCount, setNewImageCount] = useState(0);
+
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        //user yoksa girişe yönlendir
+        if (!user) {
+            alert("Please sign in to create an image.");
+            return;
+        }
+        // Kullanıcının mevcut image_count değerini çek
+        const { data, error: fetchError } = await supabase
+            .from("profiles")
+            .select("image_count")
+            .eq("id", user.id)
+            .single();
 
-
-        fetchImage();
-        setPrompt(""); //prompt inputunu temizler
-        setImageUploaded(false);
+        //5 ve üzeri kullanımda daha fazla üretmenin önüne geç
+        if (data?.image_count >= 5) {
+            alert("You have reached the maximum number of images you can create.");
+            return;
+        }
         setIsSubmitLoading(true);
+
+        try {
+            // Görsel oluşturma işlemi, await ile bitene kadar bekler
+            await fetchImage();
+
+            if (fetchError) {
+                console.error("Error fetching image_count:", fetchError.message);
+                return;
+            }
+
+            // Mevcut image_count değerini bir artır
+            setNewImageCount((data?.image_count || 0) + 1)
+
+            // Supabase'de image_count'u güncelle
+            const { error: updateError } = await supabase
+                .from("profiles")
+                .update({ image_count: newImageCount })
+                .eq("id", user.id);
+
+            if (updateError) {
+                console.error("Error updating image_count:", updateError.message);
+            } else {
+                console.log("Image count updated successfully!");
+            }
+
+        } catch (error) {
+            console.error("Error in handleSubmit:", error);
+        } finally {
+            setPrompt("");
+            setIsSubmitLoading(false);
+        }
     };
 
     const handleSaveImage = async (e: { preventDefault: () => void; }) => {
@@ -97,8 +143,8 @@ const ImageCreate = ({ user }: { user: any }) => {
     return (
         <div className="flex flex-col items-center gap-6">
             <h2 className="text-2xl font-normal">Create Image</h2>
-            <p>Image created count : 0</p>
-            <div className="flex justify-center items-center bg-accent p-4 rounded shadow min-h-40">
+            <p>Image created count : {newImageCount}</p>
+            <div className="flex justify-center items-center bg-accent p-4 rounded shadow min-h-64 min-w-[550px]">
                 {imageUploaded && imageUrl ? (
                     <div className="mt-2 w-full">
 
