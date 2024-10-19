@@ -1,5 +1,6 @@
+import ImageCreate from "@/components/ImageCreate";
 import { createClient } from "@/utils/supabase/server"; // Supabase server client'ı
-import ProfileImageUpload from "@/components/ProfileImageUpload"; // Profil resmi yükleme bileşeni
+
 
 const supabase = createClient();
 
@@ -15,7 +16,7 @@ export default async function Page() {
 
     return (
         <div>
-            <ProfileImageUpload user={user} />
+            <ImageCreate user={user} />
         </div>
     );
 }
