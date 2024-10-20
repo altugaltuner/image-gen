@@ -5,17 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
-// import { createClient } from "@supabase/supabase-js";
 import { fal } from "@fal-ai/client";
 import supabase from "@/app/api/supabase";
-
-
-
-// // Supabase client (client-side)
-// const supabase = createClient(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-//     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
-// );
 
 fal.config({
     credentials: process.env.NEXT_PUBLIC_FAL_API_KEY,
@@ -39,10 +30,8 @@ const uploadImageToSupabase = async (fileUrl: string, userId: string) => {
         console.error("Error uploading image:", error.message);
         return null;
     }
-
     // Yüklenen görselin public URL'sini döndür
     const { data } = supabase.storage.from("photos").getPublicUrl(`${folderPath}${fileName}`);
-
     return data.publicUrl;
 };
 

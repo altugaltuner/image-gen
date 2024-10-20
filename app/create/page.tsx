@@ -1,11 +1,9 @@
 import ImageCreate from "@/components/ImageCreate";
 import { createClient } from "@/utils/supabase/server"; // Supabase server client'ı
 
-
-const supabase = createClient();
-
 export default async function Page() {
     // Server-side kullanıcı bilgisi alınıyor
+    const supabase = createClient();
     const {
         data: { user },
     } = await supabase.auth.getUser();

@@ -14,14 +14,7 @@ export default async function ProfilePage() {
     return redirect("/sign-in");
   }
 
-  // // Kullanıcının profil bilgilerini Supabase'den alalım
-  // const { data: profileData, error } = await supabase
-  //   .from("profiles") // Profil tablosunun adı
-  //   .select("created_images_url") // Kaydedilen profil resminin urlsini çekiyoruz
-  //   .eq("id", user.id)
-  //   .single();
-
-  // Kullanıcının id'sine göre photos bucket'ındaki klasörden fotoğrafları çekelim
+  // Kullanıcının id'sine göre photos bucket'ındaki klasörden fotoğraflar çekiliyor
   const { data: images, error } = await supabase
     .storage
     .from("photos")
@@ -34,14 +27,12 @@ export default async function ProfilePage() {
     <div className="flex flex-col items-center gap-8 p-3 justify-center">
       <h2 className="text-2xl font-normal">Profile Page</h2>
 
-      {/* Display User ID and Email */}
       <div className="bg-gray-100 p-4 rounded shadow">
         <h3 className="font-medium text-xl">User Information</h3>
         <p>UserId: {user.id}</p>
         <p>Email: {user.email}</p>
       </div>
 
-      {/* Gallery Section */}
       <div className="w-full flex flex-col justify-center">
         <h3 className="font-normal text-xl mb-4 text-center">AI-Generated Photo Gallery</h3>
         <ScrollArea className="h-[38rem] w-full max-h-[750px] overflow-y-auto">
