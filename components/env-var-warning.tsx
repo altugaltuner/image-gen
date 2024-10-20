@@ -9,7 +9,6 @@ export function EnvVarWarning() {
           asChild
           size="sm"
           variant={"outline"}
-          disabled
           className="opacity-75 cursor-none pointer-events-none"
         >
           <Link href="/sign-in">Sign in</Link>
@@ -18,7 +17,6 @@ export function EnvVarWarning() {
           asChild
           size="sm"
           variant={"default"}
-          disabled
           className="opacity-75 cursor-none pointer-events-none"
         >
           <Link href="/sign-up">Sign up</Link>
