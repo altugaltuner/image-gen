@@ -27,7 +27,7 @@ export default async function ProfilePage() {
     <div className="flex flex-col items-center gap-8 p-3 justify-center">
       <h2 className="text-2xl font-normal">Profile Page</h2>
 
-      <div className="bg-gray-100 p-4 rounded shadow">
+      <div className="bg-accent p-4 rounded shadow">
         <h3 className="font-medium text-xl">User Information</h3>
         <p>UserId: {user.id}</p>
         <p>Email: {user.email}</p>
@@ -49,14 +49,7 @@ export default async function ProfilePage() {
                 />
               ))
             ) : (
-              // Eğer görsel yoksa placeholder
-              <Image
-                src="/placeholder.jpg"
-                alt="Placeholder Image"
-                width={150}
-                height={150}
-                className="rounded"
-              />
+              <p>Your images will be listed here...</p>
             )}
           </div>
         </ScrollArea>

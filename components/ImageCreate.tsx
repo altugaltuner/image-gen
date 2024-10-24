@@ -161,7 +161,7 @@ const ImageCreate = ({ user }: { user: any }) => {
         <div className="flex flex-col items-center gap-6">
             <h2 className="text-2xl font-normal">Create Image</h2>
             <p>Image created count : {newImageCount}</p>
-            <div className="flex justify-center items-center bg-accent p-4 rounded shadow min-h-64 min-w-[550px]">
+            <div className="flex justify-center items-center bg-accent p-4 rounded shadow min-h-64 min-w-[350px]">
                 {imageUploaded && imageUrl ? (
                     <div className="mt-2 w-full">
 

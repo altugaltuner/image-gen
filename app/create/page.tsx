@@ -1,5 +1,5 @@
 import ImageCreate from "@/components/ImageCreate";
-import { createClient } from "@/utils/supabase/server"; // Supabase server client'ı
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Page() {
     // Server-side kullanıcı bilgisi alınıyor

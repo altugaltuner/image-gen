@@ -13,8 +13,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Image-Gen",
+  description: "Create beatiful images by texting",
 };
 
 export default function RootLayout({
@@ -49,7 +49,7 @@ export default function RootLayout({
 
               <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-8">
                 <p>
-                  Made by{" "}
+                  Curated by{" "}
                   <a
                     href="https://www.linkedin.com/in/altug-altuner/"
                     target="_blank"
